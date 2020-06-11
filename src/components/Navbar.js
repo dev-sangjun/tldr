@@ -23,7 +23,12 @@ const Navbar = props => {
 };
 
 const Logo = styled.header`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 1.2em;
+  font-weight: bold;
 `;
 
 const NavItems = styled.ul`
@@ -32,9 +37,11 @@ const NavItems = styled.ul`
 `;
 
 export default styled(Navbar)`
+  position: relative;
+  z-index: 2;
   padding: 1rem;
   box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 `;

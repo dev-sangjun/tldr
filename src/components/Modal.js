@@ -9,24 +9,17 @@ const Modal = props => {
   const { isOpen, component } = useSelector(state => state.modal);
   const dispatch = useDispatch();
   const onClose = e => {
-    const { id } = e.target;
-    if (id === "modal-container" || id === "modal-close-btn")
-      dispatch(closeModal());
+    dispatch(closeModal());
   };
   return (
     <div
       id="modal-container"
       className={className}
       style={{ display: isOpen ? "flex" : "none" }}
-      onClick={onClose}
     >
       <div className="modal-wrapper">
         {component}
-        <MdClear
-          id="modal-close-btn"
-          className="close-btn btn"
-          onClick={onClose}
-        />
+        <MdClear className="close-btn btn" onClick={onClose} />
       </div>
     </div>
   );

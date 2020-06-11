@@ -20,17 +20,15 @@ const LoginForm = props => {
     setLoading(true);
     try {
       if (loginMode) {
-        const user = await login(
-          username.current.value,
-          password.current.value
-        );
-        dispatch(setUser(user.data));
+        const res = await login(username.current.value, password.current.value);
+        setLoading(false);
+        dispatch(setUser(res.data.user));
         dispatch(closeModal());
       }
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
-    setLoading(false);
   };
   const onModeClick = e => {
     setLoginMode(!loginMode);
