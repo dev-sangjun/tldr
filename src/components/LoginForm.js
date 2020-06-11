@@ -1,14 +1,23 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Header, TextField, Submit } from "./styled";
+import { login } from "../api";
+
 const LoginForm = props => {
   const { className } = props;
   const [loginMode, setLoginMode] = useState(true);
   const username = useRef(),
     email = useRef(),
     password = useRef();
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
+    // login user
+    try {
+      const user = await login(username.current.value, password.current.value);
+      console.log(user);
+    } catch (e) {
+      console.log(e);
+    }
   };
   const onModeClick = e => {
     setLoginMode(!loginMode);
@@ -19,6 +28,7 @@ const LoginForm = props => {
       <form className="login-form" onSubmit={onSubmit}>
         <TextField
           className="text-input"
+          name="username"
           placeholder="Username"
           ref={username}
         />
@@ -27,6 +37,7 @@ const LoginForm = props => {
         )}
         <TextField
           className="text-input"
+          name="password"
           type="password"
           placeholder="Password"
           ref={password}
