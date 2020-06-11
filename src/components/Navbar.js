@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { openModal } from "../reducers";
+import { LoginForm } from "../components";
 
 const Navbar = props => {
   const { className } = props;
   const dispatch = useDispatch();
   const onLogin = () => {
-    dispatch(openModal(null));
+    dispatch(openModal(<LoginForm />));
   };
   return (
     <div className={className}>
