@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { setUser, closeModal } from "../reducers";
 import { Header, TextField, Submit } from "./styled";
-import { login } from "../api";
+import { login, fetch } from "../api";
 
 const LoginForm = props => {
   const { className } = props;
@@ -22,7 +22,9 @@ const LoginForm = props => {
       if (loginMode) {
         const res = await login(username.current.value, password.current.value);
         setLoading(false);
-        dispatch(setUser(res.data.user));
+        localStorage.setItem("tldr/token", res.data);
+        const res_ = await fetch();
+        dispatch(setUser(res_.data));
         dispatch(closeModal());
       }
     } catch (e) {
