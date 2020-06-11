@@ -1,23 +1,49 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Header, TextField, Submit } from "./styled";
 const LoginForm = props => {
   const { className } = props;
+  const [loginMode, setLoginMode] = useState(true);
+  const username = useRef(),
+    email = useRef(),
+    password = useRef();
   const onSubmit = e => {
     e.preventDefault();
   };
+  const onModeClick = e => {
+    setLoginMode(!loginMode);
+  };
   return (
     <div className={className}>
-      <Header className="header">Login</Header>
+      <Header className="header">{loginMode ? "Login" : "Sign Up"}</Header>
       <form className="login-form" onSubmit={onSubmit}>
-        <TextField className="text-input" placeholder="Username" />
+        <TextField
+          className="text-input"
+          placeholder="Username"
+          ref={username}
+        />
+        {!loginMode && (
+          <TextField className="text-input" placeholder="Email" ref={email} />
+        )}
         <TextField
           className="text-input"
           type="password"
           placeholder="Password"
+          ref={password}
         />
-        <Submit className="submit-btn btn" value="Login" />
+        <Submit
+          className="submit-btn btn"
+          value={loginMode ? "Login" : "Sign Up"}
+        />
       </form>
+      <div className="btm-container">
+        <span className="mode-label">
+          {loginMode ? "Not" : "Already"} registered?
+        </span>
+        <span className="btn" onClick={onModeClick}>
+          {loginMode ? "Sign Up" : "Login"}
+        </span>
+      </div>
     </div>
   );
 };
@@ -38,6 +64,7 @@ export default styled(LoginForm)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
     .text-input {
       width: 100%;
       margin-bottom: 0.5rem;
@@ -50,6 +77,14 @@ export default styled(LoginForm)`
       color: white;
       background-color: #767676;
       box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
+    }
+  }
+  .btm-container {
+    display: flex;
+    justify-content: center;
+    .mode-label {
+      margin-right: 1rem;
+      color: gray;
     }
   }
 `;

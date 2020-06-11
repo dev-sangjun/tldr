@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { MdClear } from "react-icons/md";
@@ -8,16 +8,25 @@ const Modal = props => {
   const { className } = props;
   const { isOpen, component } = useSelector(state => state.modal);
   const dispatch = useDispatch();
-  const onClose = () => dispatch(closeModal());
+  const onClose = e => {
+    const { id } = e.target;
+    if (id === "modal-container" || id === "modal-close-btn")
+      dispatch(closeModal());
+  };
   return (
     <div
+      id="modal-container"
       className={className}
       style={{ display: isOpen ? "flex" : "none" }}
       onClick={onClose}
     >
       <div className="modal-wrapper">
         {component}
-        <MdClear className="close-btn btn" onClick={onClose} />
+        <MdClear
+          id="modal-close-btn"
+          className="close-btn btn"
+          onClick={onClose}
+        />
       </div>
     </div>
   );
