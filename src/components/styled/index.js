@@ -16,7 +16,7 @@ export const TextField = styled.input`
   }
 `;
 
-export const Submit = styled.input.attrs({ type: "submit" })`
+export const Submit = styled.button.attrs({ type: "submit" })`
   border: none;
   border-radius: 0.25rem;
   font-size: 0.8em;

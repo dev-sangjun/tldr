@@ -1,23 +1,32 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { ClipLoader } from "react-spinners";
 import { Header, TextField, Submit } from "./styled";
 import { login } from "../api";
 
 const LoginForm = props => {
   const { className } = props;
   const [loginMode, setLoginMode] = useState(true);
+  const [loading, setLoading] = useState(false);
   const username = useRef(),
     email = useRef(),
     password = useRef();
   const onSubmit = async e => {
     e.preventDefault();
     // login user
+    setLoading(true);
     try {
-      const user = await login(username.current.value, password.current.value);
-      console.log(user);
+      if (loginMode) {
+        const user = await login(
+          username.current.value,
+          password.current.value
+        );
+        console.log(user.data);
+      }
     } catch (e) {
       console.log(e);
     }
+    setLoading(false);
   };
   const onModeClick = e => {
     setLoginMode(!loginMode);
@@ -28,7 +37,6 @@ const LoginForm = props => {
       <form className="login-form" onSubmit={onSubmit}>
         <TextField
           className="text-input"
-          name="username"
           placeholder="Username"
           ref={username}
         />
@@ -37,15 +45,19 @@ const LoginForm = props => {
         )}
         <TextField
           className="text-input"
-          name="password"
           type="password"
           placeholder="Password"
           ref={password}
         />
-        <Submit
-          className="submit-btn btn"
-          value={loginMode ? "Login" : "Sign Up"}
-        />
+        <Submit className="submit-btn btn">
+          {loading ? (
+            <ClipLoader size="1em" color="white" />
+          ) : loginMode ? (
+            "Login"
+          ) : (
+            "Sign Up"
+          )}
+        </Submit>
       </form>
       <div className="btm-container">
         <span className="mode-label">
