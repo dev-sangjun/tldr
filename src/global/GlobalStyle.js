@@ -6,4 +6,10 @@ export default createGlobalStyle`
     margin: 0;
     box-sizing: border-box;
   }
+  .btn {
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  }
 `;
