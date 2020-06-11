@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setUser, closeModal } from "../reducers";
 import { Header, TextField, Submit } from "./styled";
 import { login } from "../api";
 
@@ -11,6 +13,7 @@ const LoginForm = props => {
   const username = useRef(),
     email = useRef(),
     password = useRef();
+  const dispatch = useDispatch();
   const onSubmit = async e => {
     e.preventDefault();
     // login user
@@ -21,7 +24,8 @@ const LoginForm = props => {
           username.current.value,
           password.current.value
         );
-        console.log(user.data);
+        dispatch(setUser(user.data));
+        dispatch(closeModal());
       }
     } catch (e) {
       console.log(e);
