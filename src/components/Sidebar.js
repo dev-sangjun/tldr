@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { MdAdd } from "react-icons/md";
@@ -10,8 +10,13 @@ const Sidebar = props => {
   const { className, onFolderClick } = props;
   const { user } = useSelector(state => state);
   const dispatch = useDispatch();
+  const foldersList = useRef();
   const onClick = e => {
     const index = e.target.dataset.index;
+    Array.from(foldersList.current.children).map(list => {
+      if (list.dataset.index === index) list.classList.add("bold");
+      else list.classList.remove("bold");
+    });
     onFolderClick(parseInt(index));
   };
   const onAdd = e => {
@@ -32,7 +37,7 @@ const Sidebar = props => {
           <MdAdd className="add-btn btn" size="1.2em" onClick={onAdd} />
         </div>
       </div>
-      <ul className="folders-list">
+      <ul className="folders-list" ref={foldersList}>
         {user.folders.map((folder, index) => (
           <li
             className="folder-title btn"

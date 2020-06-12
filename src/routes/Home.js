@@ -113,6 +113,7 @@ export default styled(Home)`
   width: 100%;
   .posts-container {
     width: calc(100% - 14rem);
+    overflow-y: scroll;
     padding: 3rem;
     .top-container {
       display: flex;
@@ -143,6 +144,7 @@ export default styled(Home)`
     .posts {
       list-style: none;
       width: 100%;
+      padding: 0.5rem;
       li {
         margin-bottom: 1rem;
         &:last-child {

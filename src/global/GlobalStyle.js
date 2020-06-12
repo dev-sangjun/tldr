@@ -12,4 +12,7 @@ export default createGlobalStyle`
       cursor: pointer;
     }
   }
+  .bold {
+    font-weight: bold
+  }
 `;
