@@ -7,13 +7,12 @@ import { FolderForm } from "../components";
 import { Header } from "../components/styled";
 
 const Sidebar = props => {
-  const { className } = props;
+  const { className, onFolderClick } = props;
   const { user } = useSelector(state => state);
   const dispatch = useDispatch();
   const onClick = e => {
     const index = e.target.dataset.index;
-    const folder = user.folders[index];
-    console.log(folder);
+    onFolderClick(parseInt(index));
   };
   const onAdd = e => {
     dispatch(openModal(<FolderForm />));
@@ -21,10 +20,19 @@ const Sidebar = props => {
   const renderFolders = user && (
     <div className="folders-container">
       <div className="top-container">
-        <Header className="folders-header">
-          Folders ({user.folders.length})
+        <Header
+          className="recent-posts-header btn"
+          onClick={onClick}
+          data-index="-1"
+        >
+          Recent Posts
         </Header>
-        <MdAdd className="add-btn btn" size="1.2em" onClick={onAdd} />
+        <div className="folders-header-container">
+          <Header className="folders-header">
+            Folders ({user.folders.length})
+          </Header>
+          <MdAdd className="add-btn btn" size="1.2em" onClick={onAdd} />
+        </div>
       </div>
       <ul className="folders-list">
         {user.folders.map((folder, index) => (
@@ -46,19 +54,27 @@ const Sidebar = props => {
 
 export default styled(Sidebar)`
   background-color: white;
-  flex: 1;
-  width: 12rem;
+  width: 14rem;
   box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
   padding: 1rem;
   .folders-container {
     .top-container {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
       margin-bottom: 0.5rem;
-      .add-btn {
-        position: relative;
-        top: -0.125rem;
+      .recent-posts-header {
+        margin-bottom: 0.5rem;
+      }
+      .folders-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .folders-header {
+        }
+        .add-btn {
+          position: relative;
+          top: -0.125rem;
+        }
       }
     }
     .folders-list {
