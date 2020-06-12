@@ -16,6 +16,17 @@ export const TextField = styled.input`
   }
 `;
 
+export const TextArea = styled.textarea`
+  background-color: #f4f5f7;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.8em;
+  padding: 0.5rem 0.75rem;
+  resize: none;
+  &:focus {
+    outline: none;
+  }
+`;
 export const Submit = styled.button.attrs({ type: "submit" })`
   border: none;
   border-radius: 0.25rem;

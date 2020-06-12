@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { MdAdd } from "react-icons/md";
-import { Sidebar } from "../components";
+import { useSelector, useDispatch } from "react-redux";
+import { MdAdd, MdDelete } from "react-icons/md";
+import { openModal } from "../reducers";
+import { Sidebar, PostForm } from "../components";
 import { Header } from "../components/styled";
 
 const Home = props => {
   const { className } = props;
   const { user } = useSelector(state => state);
   const [index, setIndex] = useState(-1);
+  const dispatch = useDispatch();
   const onFolderClick = index => setIndex(index);
+  const onCreatePost = () => {
+    dispatch(openModal(<PostForm folder={user.folders[index]._id} />));
+  };
   const renderPosts = user && (
     <div className="posts-container">
       <div className="top-container">
         <Header className="folders-header">
           {index === -1 ? "Recent Posts" : user.folders[index].title}
         </Header>
-        <MdAdd className="add-btn btn" size="1.2em" />
+        {index !== -1 && <MdDelete className="delete-btn btn" size="1.2em" />}
+        {index !== -1 && (
+          <MdAdd className="add-btn btn" size="1.2em" onClick={onCreatePost} />
+        )}
       </div>
       <ul className="posts">
         {index === -1
@@ -44,9 +52,12 @@ export default styled(Home)`
     padding: 1rem;
     .top-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
+      .delete-btn {
+        position: relative;
+        top: -0.125rem;
+      }
       .add-btn {
         position: relative;
         top: -0.125rem;
