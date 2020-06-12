@@ -36,3 +36,10 @@ export const createFolder = title => {
   };
   return axios.post(BASE_URL + "/folders", body, config);
 };
+
+export const deleteFolder = id => {
+  const config = {
+    headers,
+  };
+  return axios.delete(BASE_URL + `/folders/${id}`, config);
+};

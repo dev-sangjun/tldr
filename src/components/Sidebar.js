@@ -55,6 +55,7 @@ const Sidebar = props => {
 export default styled(Sidebar)`
   background-color: white;
   width: 14rem;
+  height: 100%;
   box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
   padding: 1rem;
   .folders-container {

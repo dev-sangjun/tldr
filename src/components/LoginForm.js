@@ -23,6 +23,7 @@ const LoginForm = props => {
         const res = await login(username.current.value, password.current.value);
         setLoading(false);
         localStorage.setItem("tldr/token", res.data);
+        console.log(localStorage.getItem("tldr/token"));
         const res_ = await fetch();
         dispatch(setUser(res_.data));
         dispatch(closeModal());
