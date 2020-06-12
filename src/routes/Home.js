@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { MdAdd, MdDelete } from "react-icons/md";
@@ -38,6 +38,17 @@ const Home = props => {
   const onCreatePost = () => {
     dispatch(openModal(<PostForm folder={user.folders[index]._id} />));
   };
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const res = await fetch();
+        dispatch(setUser(res.data));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if (!user) init();
+  }, [dispatch]);
   const renderPost = post => (
     <li key={post._id}>
       <Post className="post" post={post} />
@@ -97,10 +108,10 @@ const Overlay = styled.div`
 export default styled(Home)`
   flex: 1;
   display: flex;
-  overflow: scroll;
   position: relative;
+  width: 100%;
   .posts-container {
-    width: 100%;
+    flex: 1;
     padding: 3rem;
     .top-container {
       display: flex;
@@ -130,6 +141,7 @@ export default styled(Home)`
     }
     .posts {
       list-style: none;
+      width: 100%;
       li {
         margin-bottom: 1rem;
         &:last-child {

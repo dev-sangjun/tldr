@@ -17,24 +17,30 @@ const Post = props => {
 };
 
 export default styled(Post)`
-  height: 10rem;
+  overflow: hidden;
   background-color: white;
   border-radius: 0.25rem;
   box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
   padding: 1rem;
+  width: 100%;
   .top-container {
     display: flex;
     align-items: center;
     .post-header {
-      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .date {
-      width: 6rem;
       color: gray;
       text-align: right;
+      margin-left: 1rem;
     }
   }
   .post-content {
     padding-left: 0.5rem;
+    max-height: 15rem;
+    overflow: scroll;
   }
 `;

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "./reducers";
 import { fetch } from "./api";
 import { GlobalStyle } from "./global";
-import { Home } from "./routes";
+import { Home, Public } from "./routes";
 import { Navbar, Modal } from "./components";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={user ? Home : Public} />
         </Switch>
         <Modal />
         <GlobalStyle />

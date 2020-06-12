@@ -28,21 +28,19 @@ const Sidebar = props => {
           Recent Posts
         </Header>
         <div className="folders-header-container">
-          <Header className="folders-header">
-            Folders ({user.folders.length})
-          </Header>
+          <Header className="folders-header">My Folders</Header>
           <MdAdd className="add-btn btn" size="1.2em" onClick={onAdd} />
         </div>
       </div>
       <ul className="folders-list">
         {user.folders.map((folder, index) => (
           <li
-            className="btn"
+            className="folder-title btn"
             key={folder._id}
             onClick={onClick}
             data-index={index}
           >
-            {folder.title} ({folder.posts.length})
+            {folder.title}
           </li>
         ))}
       </ul>
@@ -81,7 +79,11 @@ export default styled(Sidebar)`
     .folders-list {
       list-style: none;
       padding-left: 0.5rem;
-      li {
+      .folder-title {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         margin-bottom: 0.5rem;
         &:last-child {
           margin-bottom: 0;

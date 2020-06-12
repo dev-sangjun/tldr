@@ -1,21 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { openModal } from "../reducers";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal, setUser } from "../reducers";
 import { LoginForm } from "../components";
 
 const Navbar = props => {
   const { className } = props;
+  const { user } = useSelector(state => state);
   const dispatch = useDispatch();
   const onLogin = () => {
-    dispatch(openModal(<LoginForm />));
+    if (user) {
+      if (window.confirm("Are you sure you want to log out?")) {
+        dispatch(setUser(null));
+        localStorage.setItem("tldr/token", null);
+      }
+    } else dispatch(openModal(<LoginForm />));
   };
   return (
     <div className={className}>
       <Logo>TL;DR</Logo>
       <NavItems>
         <li className="btn" onClick={onLogin}>
-          Login
+          {user ? "Logout" : "Login"}
         </li>
       </NavItems>
     </div>
