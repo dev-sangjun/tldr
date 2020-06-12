@@ -27,12 +27,13 @@ export default styled(Post)`
     display: flex;
     align-items: center;
     .post-header {
-      width: 100%;
+      flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
     .date {
+      width: 6rem;
       color: gray;
       text-align: right;
       margin-left: 1rem;

@@ -109,9 +109,10 @@ export default styled(Home)`
   flex: 1;
   display: flex;
   position: relative;
+  overflow: hidden;
   width: 100%;
   .posts-container {
-    flex: 1;
+    width: calc(100% - 14rem);
     padding: 3rem;
     .top-container {
       display: flex;
