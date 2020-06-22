@@ -29,6 +29,25 @@ export const createPost = (folder, title, content) => {
   };
   return axios.post(BASE_URL + "/posts", body, config);
 };
+
+export const updatePost = (id, title, content) => {
+  const body = {
+    title,
+    content,
+  };
+  const config = {
+    headers: getheaders(),
+  };
+  return axios.patch(BASE_URL + `/posts/${id}`, body, config);
+};
+
+export const deletePost = id => {
+  const config = {
+    headers: getheaders(),
+  };
+  return axios.delete(BASE_URL + `/posts/${id}`, config);
+};
+
 export const createFolder = title => {
   const body = {
     title,
@@ -44,4 +63,14 @@ export const deleteFolder = id => {
     headers: getheaders(),
   };
   return axios.delete(BASE_URL + `/folders/${id}`, config);
+};
+
+export const updateFolder = (id, title) => {
+  const body = {
+    title,
+  };
+  const config = {
+    headers: getheaders(),
+  };
+  return axios.patch(BASE_URL + `/folders/${id}`, body, config);
 };

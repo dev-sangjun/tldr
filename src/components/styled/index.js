@@ -51,3 +51,8 @@ export const Button = styled.button`
     outline: none;
   }
 `;
+
+export const Card = styled.div`
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
+`;

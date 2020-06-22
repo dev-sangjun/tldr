@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { MdAdd, MdDelete } from "react-icons/md";
+import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
-import { openModal, setUser } from "../reducers";
+import { openModal, setUser, setLoading } from "../reducers";
 import { Sidebar, PostForm, Post } from "../components";
 import { Header, Button } from "../components/styled";
 import { deleteFolder, fetch } from "../api";
@@ -11,10 +11,11 @@ import { deleteFolder, fetch } from "../api";
 const Home = props => {
   const { className } = props;
   const { user } = useSelector(state => state);
+  const { loading } = useSelector(state => state);
   const [index, setIndex] = useState(-1);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const onFolderClick = index => setIndex(index);
+  const onFolderEdit = async () => {};
   const onFolderDelete = async () => {
     if (
       window.confirm(
@@ -22,7 +23,7 @@ const Home = props => {
       )
     ) {
       const id = user.folders[index]._id;
-      setLoading(true);
+      dispatch(setLoading(true));
       try {
         const res = await deleteFolder(id);
         const res_ = await fetch();
@@ -32,7 +33,7 @@ const Home = props => {
       } catch (e) {
         console.log(e);
       }
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
   const onCreatePost = () => {
@@ -48,7 +49,7 @@ const Home = props => {
       }
     };
     if (!user) init();
-  }, [dispatch]);
+  }, [dispatch, user]);
   const renderPost = post => (
     <li key={post._id}>
       <Post className="post" post={post} />
@@ -61,14 +62,17 @@ const Home = props => {
           {index === -1 ? "Recent Posts" : user.folders[index].title}
         </Header>
         {index !== -1 && (
+          <Button className="edit-btn btn" onClick={onFolderEdit}>
+            <MdEdit size="1.2em" />
+          </Button>
+        )}
+        {index !== -1 && (
           <Button className="delete-btn btn" onClick={onFolderDelete}>
-            <span>Delete Folder</span>
             <MdDelete size="1.2em" />
           </Button>
         )}
         {index !== -1 && (
           <Button className="add-btn btn" onClick={onCreatePost}>
-            <span>New Post</span>
             <MdAdd size="1.2em" />
           </Button>
         )}
@@ -113,7 +117,7 @@ export default styled(Home)`
   width: 100%;
   .posts-container {
     width: calc(100% - 14rem);
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 3rem;
     .top-container {
       display: flex;
@@ -123,22 +127,27 @@ export default styled(Home)`
         font-size: 1.8em;
         margin-right: 1rem;
       }
+      .edit-btn,
       .delete-btn,
       .add-btn {
         color: white;
-        font-size: 1em;
+        font-size: 0.8em;
         display: flex;
         align-items: center;
         span {
           margin-right: 0.5rem;
         }
       }
+      .edit-btn {
+        background-color: #f29f05;
+        margin-right: 0.5rem;
+      }
       .delete-btn {
-        background-color: #ff4f67;
+        background-color: #f28705;
         margin-right: 0.5rem;
       }
       .add-btn {
-        background-color: #227ef0;
+        background-color: #185905;
       }
     }
     .posts {

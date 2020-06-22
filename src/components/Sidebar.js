@@ -14,12 +14,12 @@ const Sidebar = props => {
   const onClick = e => {
     const index = e.target.dataset.index;
     Array.from(foldersList.current.children).map(list => {
-      if (list.dataset.index === index) list.classList.add("bold");
-      else list.classList.remove("bold");
+      if (list.dataset.index === index) return list.classList.add("bold");
+      else return list.classList.remove("bold");
     });
     onFolderClick(parseInt(index));
   };
-  const onAdd = e => {
+  const onAdd = () => {
     dispatch(openModal(<FolderForm />));
   };
   const renderFolders = user && (

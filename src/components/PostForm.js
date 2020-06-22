@@ -1,13 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
 import { Header, TextField, TextArea, Submit } from "./styled";
 import { useDispatch } from "react-redux";
 import { closeModal, setUser } from "../reducers";
-import { createPost, fetch } from "../api";
+import { createPost, fetch, updatePost } from "../api";
 
 const PostForm = props => {
-  const { className, folder } = props;
+  const { className, folder, post } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const title = useRef();
@@ -16,7 +16,11 @@ const PostForm = props => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createPost(folder, title.current.value, content.current.value);
+      if (post) {
+        await updatePost(post._id, title.current.value, content.current.value);
+      } else {
+        await createPost(folder, title.current.value, content.current.value);
+      }
       const res = await fetch();
       dispatch(setUser(res.data));
       setLoading(false);
@@ -26,9 +30,15 @@ const PostForm = props => {
       console.log(e);
     }
   };
+  useEffect(() => {
+    if (post) {
+      title.current.value = post.title;
+      content.current.value = post.content;
+    }
+  }, [post]);
   return (
     <div className={className}>
-      <Header className="header">New Post</Header>
+      <Header className="header">{post ? "Edit Post" : "New Post"}</Header>
       <form className="post-form" onSubmit={onSubmit}>
         <TextField
           className="text-input"
@@ -38,7 +48,13 @@ const PostForm = props => {
         />
         <TextArea className="text-area" placeholder="Content" ref={content} />
         <Submit className="submit-btn btn">
-          {loading ? <ClipLoader size="1em" color="white" /> : "Add"}
+          {loading ? (
+            <ClipLoader size="1em" color="white" />
+          ) : post ? (
+            "Complete"
+          ) : (
+            "Add"
+          )}
         </Submit>
       </form>
     </div>

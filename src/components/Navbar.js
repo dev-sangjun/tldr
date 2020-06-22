@@ -35,6 +35,7 @@ const Logo = styled.header`
   transform: translate(-50%, -50%);
   font-size: 1.2em;
   font-weight: bold;
+  user-select: none;
 `;
 
 const NavItems = styled.ul`

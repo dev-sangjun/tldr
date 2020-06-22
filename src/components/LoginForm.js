@@ -1,19 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { setUser, closeModal } from "../reducers";
 import { Header, TextField, Submit } from "./styled";
-import { login, fetch } from "../api";
+import { login, register, fetch } from "../api";
 
 const LoginForm = props => {
   const { className } = props;
   const [loginMode, setLoginMode] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
   const username = useRef(),
     email = useRef(),
     password = useRef();
   const dispatch = useDispatch();
+  useEffect(() => {
+    username.current.focus();
+  }, [loginMode]);
   const onSubmit = async e => {
     e.preventDefault();
     // login user
@@ -21,15 +25,23 @@ const LoginForm = props => {
     try {
       if (loginMode) {
         const res = await login(username.current.value, password.current.value);
-        setLoading(false);
         localStorage.setItem("tldr/token", res.data);
         const res_ = await fetch();
         dispatch(setUser(res_.data));
         dispatch(closeModal());
+        setLoading(false);
+      } else {
+        await register(
+          username.current.value,
+          email.current.value,
+          password.current.value
+        );
+        setLoading(false);
+        setLoginMode(true);
       }
     } catch (e) {
       setLoading(false);
-      console.log(e);
+      console.log(e.response.data);
     }
   };
   const onModeClick = e => {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { MdClear } from "react-icons/md";

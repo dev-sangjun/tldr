@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
 import { Header, TextField, Submit } from "./styled";
 import { useDispatch } from "react-redux";
 import { closeModal, setUser } from "../reducers";
-import { createFolder, fetch } from "../api";
+import { createFolder, fetch, updateFolder } from "../api";
 const FolderForm = props => {
-  const { className } = props;
+  const { className, folder } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const title = useRef();
@@ -14,7 +14,11 @@ const FolderForm = props => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createFolder(title.current.value);
+      if (folder) {
+        await updateFolder(folder._id, title.current.value);
+      } else {
+        await createFolder(title.current.value);
+      }
       const res = await fetch();
       dispatch(setUser(res.data));
       setLoading(false);
@@ -24,6 +28,11 @@ const FolderForm = props => {
       console.log(e);
     }
   };
+  useEffect(() => {
+    if (folder) {
+      title.current.value = folder.title;
+    }
+  }, [folder]);
   return (
     <div className={className}>
       <Header className="header">New Folder</Header>
@@ -35,7 +44,13 @@ const FolderForm = props => {
           ref={title}
         />
         <Submit className="submit-btn btn">
-          {loading ? <ClipLoader size="1em" color="white" /> : "Add"}
+          {loading ? (
+            <ClipLoader size="1em" color="white" />
+          ) : folder ? (
+            "Complete"
+          ) : (
+            "Add"
+          )}
         </Submit>
       </form>
     </div>
