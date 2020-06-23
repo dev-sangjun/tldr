@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./css/App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "./reducers";
 import { fetch } from "./api";
@@ -32,12 +31,10 @@ function App() {
   }, [dispatch, user]);
   return loading ? null : (
     <div className="App">
-      <Router>
-        <Navbar />
-        {user ? <Home /> : <Public />}
-        <Modal />
-        <GlobalStyle />
-      </Router>
+      <Navbar />
+      {user ? <Home /> : <Public />}
+      <Modal />
+      <GlobalStyle />
     </div>
   );
 }
