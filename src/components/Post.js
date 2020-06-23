@@ -7,6 +7,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setUser, setLoading, openModal } from "../reducers";
 import { deletePost, fetch } from "../api";
+import ReactMarkdown from "react-markdown";
 const Post = props => {
   const { className, post } = props;
   const updatedAt = getDateString(new Date(post.updatedAt));
@@ -36,7 +37,9 @@ const Post = props => {
         <MdDelete className="post-icon btn" onClick={onDelete} />
         <span className="date">{updatedAt}</span>
       </div>
-      <Content className="post-content">{post.content}</Content>
+      <Content className="post-content">
+        <ReactMarkdown source={post.content} />
+      </Content>
     </div>
   );
 };

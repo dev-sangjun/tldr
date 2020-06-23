@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
 import { openModal, setUser, setLoading } from "../reducers";
-import { Sidebar, PostForm, Post } from "../components";
+import { Sidebar, PostForm, Post, FolderForm } from "../components";
 import { Header, Button } from "../components/styled";
 import { deleteFolder, fetch } from "../api";
 
@@ -15,7 +15,9 @@ const Home = props => {
   const [index, setIndex] = useState(-1);
   const dispatch = useDispatch();
   const onFolderClick = index => setIndex(index);
-  const onFolderEdit = async () => {};
+  const onFolderEdit = () => {
+    dispatch(openModal(<FolderForm folder={user.folders[index]} />));
+  };
   const onFolderDelete = async () => {
     if (
       window.confirm(
@@ -25,11 +27,10 @@ const Home = props => {
       const id = user.folders[index]._id;
       dispatch(setLoading(true));
       try {
-        const res = await deleteFolder(id);
-        const res_ = await fetch();
+        await deleteFolder(id);
+        const res = await fetch();
         setIndex(-1);
-        dispatch(setUser(res_.data));
-        console.log(res.data);
+        dispatch(setUser(res.data));
       } catch (e) {
         console.log(e);
       }
@@ -130,6 +131,8 @@ export default styled(Home)`
       .edit-btn,
       .delete-btn,
       .add-btn {
+        position: relative;
+        top: -0.125rem;
         color: white;
         font-size: 0.8em;
         display: flex;

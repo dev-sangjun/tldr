@@ -10,7 +10,7 @@ const LoginForm = props => {
   const { className } = props;
   const [loginMode, setLoginMode] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [errorMessages, setErrorMessages] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const username = useRef(),
     email = useRef(),
     password = useRef();
@@ -22,6 +22,7 @@ const LoginForm = props => {
     e.preventDefault();
     // login user
     setLoading(true);
+    setErrorMessage("");
     try {
       if (loginMode) {
         const res = await login(username.current.value, password.current.value);
@@ -41,6 +42,7 @@ const LoginForm = props => {
       }
     } catch (e) {
       setLoading(false);
+      setErrorMessage(e.response.data.message);
       console.log(e.response.data);
     }
   };
@@ -57,7 +59,12 @@ const LoginForm = props => {
           ref={username}
         />
         {!loginMode && (
-          <TextField className="text-input" placeholder="Email" ref={email} />
+          <TextField
+            type="email"
+            className="text-input"
+            placeholder="Email"
+            ref={email}
+          />
         )}
         <TextField
           className="text-input"
@@ -83,6 +90,7 @@ const LoginForm = props => {
           {loginMode ? "Sign Up" : "Login"}
         </span>
       </div>
+      <span className="error-message">{errorMessage}</span>
     </div>
   );
 };
@@ -125,5 +133,8 @@ export default styled(LoginForm)`
       margin-right: 1rem;
       color: gray;
     }
+  }
+  .error-message {
+    color: red;
   }
 `;

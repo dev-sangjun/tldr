@@ -35,6 +35,7 @@ const PostForm = props => {
       title.current.value = post.title;
       content.current.value = post.content;
     }
+    title.current.focus();
   }, [post]);
   return (
     <div className={className}>

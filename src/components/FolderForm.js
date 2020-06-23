@@ -32,10 +32,13 @@ const FolderForm = props => {
     if (folder) {
       title.current.value = folder.title;
     }
+    title.current.focus();
   }, [folder]);
   return (
     <div className={className}>
-      <Header className="header">New Folder</Header>
+      <Header className="header">
+        {folder ? "Edit Folder" : "New Folder"}
+      </Header>
       <form className="folder-form" onSubmit={onSubmit}>
         <TextField
           className="text-input"
