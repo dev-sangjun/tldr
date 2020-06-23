@@ -34,9 +34,7 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={user ? Home : Public} />
-        </Switch>
+        {user ? <Home /> : <Public />}
         <Modal />
         <GlobalStyle />
       </Router>
