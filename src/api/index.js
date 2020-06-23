@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://tldr-server.herokuapp.com";
 
 const getheaders = () => ({
   authorization: `Bearer ${localStorage.getItem("tldr/token")}`,
